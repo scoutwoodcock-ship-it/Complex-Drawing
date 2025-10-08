@@ -1,78 +1,122 @@
-void setup (){
-  size (600,600);
-  background (149,165,232);
+Mountain[] mountains;
+Snowball[] snowballs;
+Snowman snowman;
+Lodge lodge;
+
+void setup() {
+  size(600, 600);
+  background(149, 165, 232);
+
+  // Initialize objects
+  mountains = new Mountain[] {
+    new Mountain(0, 600, 175, 350, 350, 600),
+    new Mountain(350, 600, 500, 250, 650, 600),
+    new Mountain(150, 600, 350, 450, 500, 600)
+  };
+
+  snowballs = new Snowball[] {
+    new Snowball(50, 50, 8),
+    new Snowball(200, 80, 8),
+    new Snowball(400, 150, 8),
+    new Snowball(300, 400, 8),
+    new Snowball(100, 300, 8),
+    new Snowball(550, 30, 8)
+  };
+
+  snowman = new Snowman(175, 575);
+  lodge = new Lodge(450, 560);
 }
 
 void draw() {
-  background (149,165,232);
-  mountains ();
-  snowballs ();
-  snowman ();
-  lodge ();
-  
-}
-  
-void mountains (){
-  
-stroke (89,68,74);
-fill(89,68,74);
-triangle (175,350,0,600,350,600);
-triangle (500,250,350,600, 650,600);
-triangle (350,450,150,600,500,600);
-  
+  background(149, 165, 232);
+
+  for (Mountain m : mountains) {
+    m.draw();
+  }
+
+  for (Snowball s : snowballs) {
+    s.draw();
+  }
+
+  snowman.draw();
+  lodge.draw();
 }
 
-void snowman (){
-  
-stroke (193, 198, 219);
-fill (193, 198, 219);
+class Mountain {
+  float x1, y1, x2, y2, x3, y3;
 
-circle (175,575,50);
-circle (175,535,30);
-circle (175,510,20);
+  Mountain(float x1, float y1, float x2, float y2, float x3, float y3) {
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
+    this.x3 = x3;
+    this.y3 = y3;
+  }
 
-stroke (212,155,51);
-fill (212,155,51);
-triangle (175,509,175,511,190,510);
-
-stroke (18,17,16);
-line (160,535,140,510);
-line (190,535,210,510);
-
-fill (18,17,17);
-rect (165,495,20,5);
-rect (167,490,16,5);
-
+  void draw() {
+    stroke(89, 68, 74);
+    fill(89, 68, 74);
+    triangle(x1, y1, x2, y2, x3, y3);
+  }
 }
 
-void lodge (){
+class Snowman {
+  float x, y;
 
-stroke (64,55,57);
-fill(64,55,57);
-rect (450,560,60,40);
-rect (500,540,10,20);
+  Snowman(float x, float y) {
+    this.x = x;
+    this.y = y;
+  }
 
-fill (237,230,223);
-rect (455,580,10,20);
+  void draw() {
+    stroke(193, 198, 219);
+    fill(193, 198, 219);
 
-fill (219,174,90);
-rect (485,575,10,10);
+    circle(x, y, 50);        
+    circle(x, y - 40, 30);    
+    circle(x, y - 65, 20);    
 
-fill (247,246,245);
-circle (505,530,5);
-circle (505,523,5);
-circle (505,516,6);
+    // Nose
+    stroke(212, 155, 51);
+    fill(212, 155, 51);
+    triangle(x, y - 66, x, y - 64, x + 15, y - 65);
 
+    // Arms
+    stroke(18, 17, 16);
+    line(x - 15, y - 40, x - 35, y - 65);
+    line(x + 15, y - 40, x + 35, y - 65);
+
+    // Hat
+    fill(18, 17, 17);
+    rect(x - 10, y - 80, 20, 5);   
+    rect(x - 8, y - 85, 16, 5);   
+  }
 }
 
-void snowballs (){
-stroke (193, 198, 219);
-fill (193, 198, 219);
-circle (50,50,8);
-circle (200,80,8);
-circle (400,150,8);
-circle (300,400,8);
-circle (100,300,8);
-circle (550,30,8);
+class Lodge {
+  float x, y;
 
+  Lodge(float x, float y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  void draw() {
+    stroke(64, 55, 57);
+    fill(64, 55, 57);
+    rect(x, y, 60, 40);           // base
+    rect(x + 50, y - 20, 10, 20); // chimney
+
+    fill(237, 230, 223);
+    rect(x + 5, y + 20, 10, 20);  // door
+
+    fill(219, 174, 90);
+    rect(x + 35, y + 15, 10, 10); // window
+
+    fill(247, 246, 245);
+    circle(x + 55, y - 30, 5);
+    circle(x + 55, y - 37, 5);
+    circle(x + 55, y - 44, 6);    // smoke
+  }
 }
